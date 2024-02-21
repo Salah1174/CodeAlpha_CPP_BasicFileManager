@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <cstring>
+#include <stdlib.h>
 
 using namespace std;
 using namespace std::filesystem;
@@ -17,6 +18,7 @@ int main()
         cout << "Navigate Directory        -> Navigate Dir\n";
         cout << "View Files in Directory   -> View Files  \n";
         cout << "Create Files in Directory -> Create File \n";
+        cout << "Move File from Directory  -> Move File   \n";
         cout << "Enter Required Operation : ";
 
         getline(cin, choice);
@@ -41,7 +43,6 @@ int main()
             if (entry.exists())
             {
                 current_path(DirLoc);
-                // cout << current_path() << endl;
                 cout << "Exists\n";
             }
             else
@@ -51,22 +52,18 @@ int main()
         }
         else if (choice == "View Files")
         {
-            // cout << "\nEnter Directory Location : ";
-            // getline(cin, DirLoc);
             for (const auto &dirEntry : recursive_directory_iterator(current_path()))
                 std::cout << dirEntry << std::endl;
         }
         else if (choice == "Create File")
         {
             string FileName, Data;
-            // cout << "\nEnter Directory Location : ";
-            // getline(cin, DirLoc);
             cout << "\nEnter File Name and Extension : ";
             getline(cin, FileName);
 
-            path path(current_path());              
-            path /= FileName;                       
-            create_directories(path.parent_path()); 
+            path path(current_path());
+            path /= FileName;
+            create_directories(path.parent_path());
 
             cout << "\nEnter file data : ";
             getline(cin, Data);
@@ -74,23 +71,23 @@ int main()
             ofs << Data;
             ofs.close();
         }
-        // else if (choice == "Move File")
-        // {
-        //     std::ifstream in("from.txt", std::ios::in | std::ios::binary);
-        //     std::ofstream out("to.txt", std::ios::out | std::ios::binary);
-        //     out << in.rdbuf();
-        //     std::remove("from.txt");
-
-        //     // try
-        //     // {
-        //     //     std::filesystem::copy("from.txt", "to.txt");
-        //     //     std::filesystem::remove("from.txt");
-        //     // }
-        //     // catch (std::filesystem::filesystem_error &e)
-        //     // {
-        //     //     std::cout << e.what() << '\n';
-        //     // }
-        // }
-
+        else if (choice == "Move File")
+        {
+            string oldDir, newDir;
+            cout << "\nEnter Old Directory : ";
+            getline(cin, oldDir);
+            cout << "\nEnter New Directory : ";
+            getline(cin, newDir);
+            error_code err;
+            rename(oldDir, newDir, err);
+            if (err)
+            {
+                perror("Error moving file\n");
+            }
+            else
+            {
+                cout << "File Moved Succesfully\n";
+            }
+        }
     } while (choice != "Exit");
 }
