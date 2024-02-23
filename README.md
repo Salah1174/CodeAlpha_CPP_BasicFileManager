@@ -6,4 +6,6 @@ Operations that can be done :
 4. Move Files
 5. View Files/Subfolders in Directory
 
-When accessing a Folder write //instead of / in the path  
+Notes : 
+When accessing a Folder write // instead of / in the path  
+When moving files write name of file to be moved at end of path 
