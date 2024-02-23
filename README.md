@@ -8,4 +8,4 @@ Operations that can be done :
 
 Notes : 
 When accessing a Folder write // instead of / in the path  
-When moving files write name of file to be moved at end of path 
+When moving file , write name of file to be moved at end of path 
